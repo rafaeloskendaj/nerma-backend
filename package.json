@@ -4,8 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-     "start": "node server.js",
-  "dev": "nodemon server.js"
     "dev": "NODE_ENV=development nodemon app.ts",
     "build": "tsc",
     "stage": "NODE_ENV=staging node dist/app.js",
