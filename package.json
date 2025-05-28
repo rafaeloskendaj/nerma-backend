@@ -30,7 +30,6 @@
     "typescript-eslint": "^8.31.0"
   },
   "dependencies": {
-    "nodemon": "^2.0.22"
     "@aws-sdk/client-kms": "^3.787.0",
     "@aws-sdk/client-s3": "^3.808.0",
     "axios": "^1.9.0",
