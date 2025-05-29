@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Refund Rejection Confirmed</title>
+  </head>
+  <body
+    style="
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    "
+  >
+    <div
+      style="
+        max-width: 600px;
+        margin: 40px auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+      "
+    >
+      <div
+        style="
+          background-color: #dc3545;
+          color: white;
+          text-align: center;
+          padding: 15px 0;
+          font-size: 22px;
+          border-radius: 6px 6px 0 0;
+        "
+      >
+        Refund Rejected
+      </div>
+      <div style="padding: 20px; color: #333">
+        <p>Admin,</p>
+        <p>
+          You have <strong>rejected</strong> the refund request from
+          <strong>{{userEmail}}</strong>.
+        </p>
+        <div
+          style="
+            background-color: #f9f9f9;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+          "
+        >
+          <p><strong>Subscription ID:</strong> {{subscriptionId}}</p>
+          <p><strong>User's Reason:</strong> {{reason}}</p>
+          <p><strong>Your Note:</strong> {{adminNote}}</p>
+        </div>
+        <p>The rejection has been logged in the system.</p>
+      </div>
+      <div
+        style="
+          margin-top: 30px;
+          font-size: 13px;
+          text-align: center;
+          color: #888;
+        "
+      >
+        System Notification
+      </div>
+    </div>
+  </body>
+</html>

@@ -16,7 +16,6 @@ export const createAdmin = async () => {
     
         const twoFASecret = speakeasy.generateSecret({ length: 20 });
     
-        const encryptTwoFA = encrypt(twoFASecret.base32);
         const encryptPvKey = encrypt(ADMIN_WALLET_PVKEY);
     
         logger.info(`Admin 2fa key ${twoFASecret.base32}`);
@@ -24,7 +23,6 @@ export const createAdmin = async () => {
         const data: ICreateUser = {
             email: ADMIN_EMAIL,
             password: hashedPassword,
-            twoFASecret: encryptTwoFA,
             walletAddress: ADMIN_WALLET_ADDRESS,
             walletPrivateKey: encryptPvKey,
             isCustodialWallet: true

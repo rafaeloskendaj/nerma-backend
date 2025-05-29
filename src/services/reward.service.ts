@@ -1,10 +1,11 @@
 import { CustomRequest } from "../middlewares/admin.middleware";
 import { IAdminConfig } from "../models/Admin_config";
+import ClaimReward from "../models/ClaimReward.model";
 import RewardAggregator from "../models/Reward.model";
 import Transaction_Plaid from "../models/Transaction_Plaid";
 import { getAdminConfig } from "./admin.service";
 import { getUsersByTier } from "./user.service";
-import { updateUserConfig } from "./userConfig.service";
+import { getUserConfig, updateUserConfig } from "./userConfig.service";
 
 interface RewardInput {
     userId: unknown;
@@ -13,7 +14,6 @@ interface RewardInput {
     totalSpend: number;
     reward: number;
 }
-
 
 export const calculateReward = (totalSpent, multiplier) => {
     const reward = totalSpent * multiplier;
@@ -60,7 +60,7 @@ export const rewardUpdateHandler = async (
     for (const user of users) {
         const transactions = await Transaction_Plaid.find({
             user: user._id,
-            // datetime: { $gte: startDate, $lte: new Date() },
+            datetime: { $gte: startDate, $lte: new Date() },
         });
 
         if (!transactions.length) continue;
@@ -89,4 +89,23 @@ export const rewardUpdateHandler = async (
 
         console.log(`✅ ${tierName} | User ${user._id} spent ${totalSpend} → reward ${reward}`);
     }
+};
+
+export const getAvailableReward = async (userId: unknown) => {
+    const reward = await getUserConfig(userId);
+    const totalReward = reward.totalReward + reward.refereeReward + reward.totalReferralReward;
+    return totalReward;
+}
+
+export const createTransaction = async (data) => {
+    const transaction = await ClaimReward.create(data);
+    return transaction;
+};
+
+export const getTransactions = async (
+    userId: unknown,
+    page: number = 1,
+    limit: number = 10
+) => {
+    return await ClaimReward.paginate({ userId }, { page, limit, sort: { claimedDate: -1 } });
 };

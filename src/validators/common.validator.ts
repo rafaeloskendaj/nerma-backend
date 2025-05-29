@@ -18,3 +18,7 @@ export const getPaginateValidate = Joi.object({
   page: Joi.number().integer().min(1).default(1),
   limit: Joi.number().integer().min(1).max(100).default(10),
 });
+
+export const addWeb3TransactionValidate = Joi.object({
+  txHash: Joi.string().required()
+})

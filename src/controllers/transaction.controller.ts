@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import createHttpError from "http-errors";
 import * as TransactionService from "../services/transactions.service";
-import { getDetailsValidate } from "../validators/common.validator";
+import {  getDetailsValidate } from "../validators/common.validator";
 
 export const getPlaidTransactionController = async (req: Request, res: Response) => {
     const { error } = getDetailsValidate.validate(req.query);
@@ -12,3 +12,4 @@ export const getPlaidTransactionController = async (req: Request, res: Response)
     const data = await TransactionService.getPlaidTransaction(req, req.query);
     res.json(data)
 }
+

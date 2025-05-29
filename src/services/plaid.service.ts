@@ -44,6 +44,7 @@ export async function exchangePublicToken(req: CustomRequest) {
         });
 
         await getAccount(response.data.access_token, req.token._id);
+        // await getTheLastWeekTransaction(response.data.access_token, req.token._id);
         await updateIsPlaidFlag(req.token._id);
 
         return {
@@ -56,9 +57,9 @@ export async function exchangePublicToken(req: CustomRequest) {
     }
 };
 
-export async function syncPlaidTransactionsForTier(tier: string, time: number) {
+export async function syncPlaidTransactionsForTier(tier: string) {
     const users = await getUsersByTier(tier);
-    const startDate = moment().subtract(time, 'days').format('YYYY-MM-DD');
+    const startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
     const endDate = moment().format('YYYY-MM-DD');
 
     for (const user of users) {
@@ -70,7 +71,16 @@ export async function syncPlaidTransactionsForTier(tier: string, time: number) {
                 end_date: endDate,
             });
 
-            const { transactions } = response.data;
+            const { accounts, transactions } = response.data;
+
+            for (const acct of accounts) {
+                const updatedAccount = {
+                    ...acct,
+                    user,
+                    aggregator: 'PLAID',
+                };
+                await syncAccounts(updatedAccount);
+            }
 
             for (const txn of transactions) {
                 const accountObj = await getAccountByAccountId(txn.account_id);

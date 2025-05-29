@@ -19,3 +19,16 @@ export const getTotalSpentReward = async (req: CustomRequest, res: Response) => 
     const data = await getUserConfig(req.token._id);
     res.json({ data })
 };
+
+export const getAvailableReward = async (req: CustomRequest, res: Response) => {
+    const totalReward = await RewardService.getAvailableReward(req.token._id);
+    res.json({ totalReward })
+};
+
+export const getRewardTransactions = async (req: CustomRequest, res: Response) => {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+
+    const result = await RewardService.getTransactions(req.token._id, page, limit);
+    res.json(result);
+};

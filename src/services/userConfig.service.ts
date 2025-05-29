@@ -29,9 +29,10 @@ export async function updateUserReferralReward(reward: number, userId: unknown) 
 export async function updateRefereeReward(reward: number, userId: unknown) {
     const user = await getUserConfig(userId);
     if (!user) {
-        await UserConfig.create({
+        return await UserConfig.create({
             refereeReward: reward,
-            user: userId
+            user: userId,
+            aggregator: 'PLAID' // HARDCODE
         })
     }
     

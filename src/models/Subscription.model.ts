@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Types } from 'mongoose';
+import mongoose, { Document, Schema, Types } from "mongoose";
 
 export interface ISubscription extends Document {
   user: Types.ObjectId;
@@ -16,19 +16,20 @@ export interface ISubscription extends Document {
   invoiceNumber?: string;
   amountPaid: number;
   amountRemaining: number;
-  status: 'paid' | 'unpaid' | 'overpaid';
+  status: "paid" | "unpaid" | "overpaid" | "refunded" | "rejected";
   paymentDate?: Date;
   createdAt: Date;
   updatedAt: Date;
-  priceId: string
+  priceId: string;
+  stripePaymentIntentId: string;
 }
 
 const SubscriptionSchema: Schema = new Schema<ISubscription>(
   {
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
     tier: {
       type: String,
-      default: 'Basic',
+      default: "Basic",
     },
     isActive: { type: Boolean, default: false },
     stripeCustomerId: { type: String },
@@ -43,15 +44,25 @@ const SubscriptionSchema: Schema = new Schema<ISubscription>(
     invoiceNumber: { type: String },
     amountPaid: { type: Number, default: 0 },
     amountRemaining: { type: Number, default: 0 },
-    status: { type: String, enum: ['paid', 'unpaid', 'overpaid'], default: 'unpaid' },
+    status: {
+      type: String,
+      enum: ["paid", "unpaid", "overpaid", "refunded", "rejected"],
+      default: "unpaid",
+    },
     paymentDate: { type: Date },
-    priceId:String
+    priceId: String,
+    stripePaymentIntentId: {
+      type: String,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const Subscription = mongoose.model<ISubscription>('Subscription', SubscriptionSchema);
+const Subscription = mongoose.model<ISubscription>(
+  "Subscription",
+  SubscriptionSchema
+);
 
 export default Subscription;

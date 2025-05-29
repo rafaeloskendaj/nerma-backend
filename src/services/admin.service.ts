@@ -1,6 +1,10 @@
 import AdminConfig from "../models/Admin_config";
 import SubscriptionPlan from "../models/SubscriptionPlan.model";
 
+export const getAdminConfig = async () => {
+  return await AdminConfig.findOne();
+};
+
 export const createOrUpdatePlan = async (planData) => {
   return await SubscriptionPlan.findOneAndUpdate(
     { price_id: planData.price_id },
@@ -14,7 +18,7 @@ export const upsertAdminConfig = async (data: {
   premiumTierPercentage: number;
   premiumPlusTierPercentage: number;
 }) => {
-  const existing = await AdminConfig.findOne();
+  const existing = await getAdminConfig();
 
   if (existing) {
     existing.basicTierPercentage = data.basicTierPercentage;
@@ -25,14 +29,3 @@ export const upsertAdminConfig = async (data: {
 
   await AdminConfig.create(data);
 };
-
-export const getAdminConfig = async () => {
-  return await AdminConfig.findOne();
-};
-
-
-
-
-
-
-

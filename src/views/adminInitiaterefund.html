@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Refund Notification</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
+    <div style="width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+      <div style="background-color: #dc3545; color: #ffffff; padding: 10px 0; text-align: center; font-size: 24px;">
+        Refund Request Alert
+      </div>
+      <div style="padding: 20px;">
+        <p>Dear Admin,</p>
+        <p>
+          A user with the email <strong>{{email}}</strong> has initiated a refund process.
+        </p>
+        <p>
+          <strong>User ID:</strong> {{userId}}
+        </p>
+        <p style="font-size: 18px; color: #dc3545; font-weight: bold; margin: 20px 0;">
+          Please review and take the necessary actions promptly.
+        </p>
+        <p>
+          Visit the admin dashboard to manage this request.
+        </p>
+        <a style="background-color: #dc3545; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold; margin-top: 15px;">
+          Go to Admin Panel
+        </a>
+      </div>
+      <div style="margin-top: 30px; color: #555555; font-size: 14px; text-align: center;">
+        This is an automated alert. Please do not reply.
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,6 +1,7 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import jwt from 'jsonwebtoken';
-import { Role } from '../enums/role';
+import mongoose, { Document, PaginateModel, Schema } from "mongoose";
+import jwt from "jsonwebtoken";
+import { Role } from "../enums/role";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
@@ -26,10 +27,11 @@ export interface IUser extends Document {
     isWalletFreezeByAdmin: boolean;
     isWalletBlacklistByAdmin: boolean;
     isAccountDeactivateByAdmin: boolean;
-    tier:string
+    tier: string
     aggregator: string;
     referral_code: string;
-    phone_number: number
+    phone_number: number;
+    isUserCreatedByAdmin: boolean;
 }
 
 const UserSchema: Schema<IUser> = new Schema(
@@ -112,6 +114,13 @@ const UserSchema: Schema<IUser> = new Schema(
         aggregator: {
             type: String,
         },
+        referral_code: {
+            type: String,
+        },
+        isUserCreatedByAdmin: {
+            type: Boolean,
+            default: false,
+        },
     },
     {
         timestamps: true,
@@ -119,13 +128,13 @@ const UserSchema: Schema<IUser> = new Schema(
 );
 
 UserSchema.methods.generateJWT = function (): string {
-    return jwt.sign(
-        { _id: this._id, role: this.role },
-        JWT_SECRET,
-        { expiresIn: '7d' }
-    );
+    return jwt.sign({ _id: this._id, role: this.role }, JWT_SECRET, {
+        expiresIn: "7d",
+    });
 };
 
-const User = mongoose.model<IUser>('User', UserSchema);
+UserSchema.plugin(mongoosePaginate);
+
+const User = mongoose.model<IUser, PaginateModel<IUser>>("User", UserSchema);
 
 export default User;

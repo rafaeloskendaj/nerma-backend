@@ -19,6 +19,7 @@ async function main() {
     await createAdmin();
     await addRewardPercentage();
     await getPlansFromStripe();
+
     startScheduler();
 
     const app: Application = express();

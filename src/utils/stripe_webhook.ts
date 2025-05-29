@@ -4,7 +4,7 @@ import { logger } from '../startup/logger';
 import { stripe } from './payment_gateway';
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
-
+  
 export const processStripeEvent = async (reqBody: Buffer, sig: string) => {
     let event;
 
@@ -83,7 +83,7 @@ export const processStripeEvent = async (reqBody: Buffer, sig: string) => {
                     status: invoicePaid.status,
                     paymentDate: new Date(invoicePaid.status_transitions.paid_at * 1000),
                     tier: subscriptionPlan.name,
-                    priceId
+                    priceId,
                 };
 
                 await addSubscribedUserDetails(dataToSave);

@@ -17,6 +17,8 @@ export interface ICreateUser {
     isWalletFreezeByAdmin?: boolean;
     isWalletBlacklistByAdmin?: boolean;
     isAccountDeactivateByAdmin?: boolean;
+    isUserCreatedByAdmin?: boolean;
+    tier?: string;  
     referral_code?: string;
-    phone_number?: number;
+    phone_number?:string;
 }

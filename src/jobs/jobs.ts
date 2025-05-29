@@ -3,34 +3,31 @@ import { rewardUpdateHandler } from '../services/reward.service';
 import { syncPlaidTransactionsForTier } from '../services/plaid.service';
 
 const startScheduler = () => {
-  cron.schedule('*/1 * * * *', async () => {
-    console.log(`[${new Date().toISOString()}] Running job for basic users`);
-    await syncPlaidTransactionsForTier('Basic', 30)
+  // Weekly (every Monday at 00:00)
+  cron.schedule('0 0 * * 1', async () => {
+    console.log(`[${new Date().toISOString()}] Weekly job for Basic users`);
+    await syncPlaidTransactionsForTier('Basic');
+    await rewardUpdateHandler('Basic', 7, 'basicTierPercentage');
   });
 
-  cron.schedule('*/2 * * * *', async () => {
-    console.log(`[${new Date().toISOString()}] Running job for premium users`);
-    await syncPlaidTransactionsForTier('Premium', 30)
+  // Daily (every day at 00:00)
+  cron.schedule('0 0 * * *', async () => {
+    console.log(`[${new Date().toISOString()}] Daily job for Premium+ users`);
+    await syncPlaidTransactionsForTier('Premium +');
+    await rewardUpdateHandler('Premium +', 1, 'premiumPlusTierPercentage');
   });
 
-  cron.schedule('*/3 * * * *', async () => {
-    console.log(`[${new Date().toISOString()}] Running job for premium+ users`);
-    await syncPlaidTransactionsForTier('Premium +', 30)
-  });
+  // Custom 48-hour interval using a timestamp tracker
+  let lastPremiumRun: number = 0;
 
-  cron.schedule('*/1 * * * *', async () => {
-    console.log(`[${new Date().toISOString()}] Running reward job for basic users`);
-    await rewardUpdateHandler('Basic', 7, 'basicTierPercentage')
-  });
-
-  cron.schedule('*/2 * * * *', async () => {
-    console.log(`[${new Date().toISOString()}] Running reward job for premium users`);
-    await rewardUpdateHandler('Premium', 2, 'premiumTierPercentage')
-  });
-
-  cron.schedule('*/3 * * * *', async () => {
-    console.log(`[${new Date().toISOString()}] Running reward job for premium+ users`);
-    await rewardUpdateHandler('Premium +', 1, 'premiumPlusTierPercentage')
+  cron.schedule('0 * * * *', async () => {
+    const now = Date.now();
+    if (now - lastPremiumRun >= 48 * 60 * 60 * 1000) {
+      console.log(`[${new Date().toISOString()}] 48-hour job for Premium users`);
+      await syncPlaidTransactionsForTier('Premium');
+      await rewardUpdateHandler('Premium', 2, 'premiumTierPercentage');
+      lastPremiumRun = now;
+    }
   });
 };
 

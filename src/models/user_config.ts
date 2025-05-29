@@ -10,6 +10,7 @@ export interface IUserConfig extends Document {
   syncDurationMs: number;
   totalReferralReward: number;
   refereeReward: number;
+  claimedReward: number;
 }
 
 const UserConfigSchema: Schema<IUserConfig> = new Schema({
@@ -45,6 +46,10 @@ const UserConfigSchema: Schema<IUserConfig> = new Schema({
   nextSyncDate: {
     type: Date,
   },
+  claimedReward: {
+    type: Number,
+    default: 0,
+  }  
 }, {
   timestamps: true,
 });

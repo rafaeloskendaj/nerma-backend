@@ -19,7 +19,6 @@ export const createSubscription = async (req: Request, res: Response) => {
   }
 
   const result = await SubscriptionService.createSubscriptionService(req);
-  console.log(result, "RESUT:")
   res.json(result);
 };
 

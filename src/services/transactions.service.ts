@@ -14,6 +14,14 @@ export async function getPlaidTransaction(req: CustomRequest, queryParams) {
         user: req.token._id,
     };
 
+    //   if (search) {
+    //     query.$or = [
+    //       { name: new RegExp(search, 'i') },
+    //       { merchant_name: new RegExp(search, 'i') },
+    //       { category: new RegExp(search, 'i') },
+    //     ];
+    //   }
+
     const options = {
         page,
         limit,
@@ -23,5 +31,5 @@ export async function getPlaidTransaction(req: CustomRequest, queryParams) {
         },
     };
 
-    return Aggregator_Transaction.paginate(query, options);
+    return await Aggregator_Transaction.paginate(query, options);
 }
