@@ -14,10 +14,10 @@ export const exchangeTokenController = async (req: Request, res: Response) => {
 };
 
 export const createLinkTokenController = async (req: Request, res: Response) => {
-    const { error } = publicTokenSchema.validate(req.body);
-    if (error) {
-        throw createHttpError.BadRequest(error.details[0].message);
-    }
+    // const { error } = publicTokenSchema.validate(req.body);
+    // if (error) {
+    //     throw createHttpError.BadRequest(error.details[0].message);
+    // }
 
     const data = await PlaidService.createLinkToken(req);
     res.json(data)
