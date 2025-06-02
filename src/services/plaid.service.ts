@@ -114,13 +114,13 @@ export async function createLinkToken(req: CustomRequest) {
         language: 'en',
     };
 
-    if (PLAID_REDIRECT_URI !== '') {
-        configs.redirect_uri = PLAID_REDIRECT_URI;
-    }
+    // if (PLAID_REDIRECT_URI !== '') {
+    //     configs.redirect_uri = PLAID_REDIRECT_URI;
+    // }
 
-    if (PLAID_ANDROID_PACKAGE_NAME !== '') {
-        configs.android_package_name = PLAID_ANDROID_PACKAGE_NAME;
-    }
+    // if (PLAID_ANDROID_PACKAGE_NAME !== '') {
+    //     configs.android_package_name = PLAID_ANDROID_PACKAGE_NAME;
+    // }
 
     if (PLAID_PRODUCTS.includes(Products.Statements)) {
         configs.statements = {
